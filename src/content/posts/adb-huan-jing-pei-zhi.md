@@ -4,7 +4,7 @@ description: ""
 date: 2025-06-19
 updated: 2025-12-23
 tags: []
-draft: true
+draft: false
 ---
 ## 安装教程
 

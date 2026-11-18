@@ -3,7 +3,7 @@ title: "scrapy-playwright"
 description: ""
 date: 2025-01-24
 tags: []
-draft: true
+draft: false
 ---
 [https://github.com/scrapy-plugins/scrapy-playwright](https://github.com/scrapy-plugins/scrapy-playwright)
 

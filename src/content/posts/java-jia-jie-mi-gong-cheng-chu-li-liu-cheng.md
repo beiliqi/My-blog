@@ -4,7 +4,7 @@ description: ""
 date: 2025-06-23
 updated: 2025-07-15
 tags: []
-draft: true
+draft: false
 ---
 ## 1、配置 maven 版本和 settings 文件
 

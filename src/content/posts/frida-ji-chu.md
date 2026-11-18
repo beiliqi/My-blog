@@ -4,7 +4,7 @@ description: ""
 date: 2024-11-21
 updated: 2025-06-26
 tags: []
-draft: true
+draft: false
 ---
 模式：cli模式，RPC模式
 

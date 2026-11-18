@@ -3,7 +3,7 @@ title: "mac 安装node、npm、jsdom"
 description: ""
 date: 2025-06-19
 tags: []
-draft: true
+draft: false
 ---
 **直接从官网上下载安装**
 

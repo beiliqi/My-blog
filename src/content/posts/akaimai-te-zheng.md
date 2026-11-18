@@ -3,7 +3,7 @@ title: "Akaimai特征"
 description: ""
 date: 2025-12-03
 tags: []
-draft: true
+draft: false
 ---
 ### 1. 当前主流航空站点使用的 Akamai 版本（2025 年底）
 

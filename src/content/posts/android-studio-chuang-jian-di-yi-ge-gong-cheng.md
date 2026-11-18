@@ -4,7 +4,7 @@ description: ""
 date: 2024-11-25
 updated: 2024-12-19
 tags: []
-draft: true
+draft: false
 ---
 # 一、安装 Android studio
 

@@ -4,7 +4,7 @@ description: ""
 date: 2025-03-14
 updated: 2025-08-21
 tags: []
-draft: true
+draft: false
 ---
 以下是针对 **CentOS 7.9 上 Python 3.10.13 缺失**`_ssl`**模块问题**的完整解决步骤总结：
 

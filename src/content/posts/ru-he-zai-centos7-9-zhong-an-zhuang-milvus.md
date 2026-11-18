@@ -3,7 +3,7 @@ title: "如何在CentOS7.9中安装milvus"
 description: ""
 date: 2025-03-18
 tags: []
-draft: true
+draft: false
 ---
 一、安装 milvus<br>1、使用Docker Compose安装Milvus Standalone
 

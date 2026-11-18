@@ -3,7 +3,7 @@ title: "linux服务器推送项目到git"
 description: ""
 date: 2024-12-19
 tags: []
-draft: true
+draft: false
 ---
 本文档将介绍如何在Linux服务器中将项目工程推送到Git仓库。假设你已经有一个Git仓库，并且在Linux服务器中有一个项目工程，以下步骤将帮助你将该工程上传到Git仓库
 
