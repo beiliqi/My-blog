@@ -19,7 +19,7 @@ export const SITE = {
   ],
   /** 留空则不渲染对应图标 */
   links: {
-    github: 'https://github.com/',
+    github: 'https://github.com/beiliqi',
     email: '',
   },
 } as const;

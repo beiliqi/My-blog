@@ -232,6 +232,24 @@ shikiConfig: {
 
 ## 部署
 
+### GitHub Pages
+
+静态站可以直接托管在 GitHub Pages。仓库名用 `<用户名>.github.io` 时站点在根路径，开箱即用：
+
+1. 新建仓库 `<用户名>.github.io`，把本目录 push 到 `main`
+2. 仓库 **Settings → Pages → Build and deployment → Source** 选 **GitHub Actions**
+3. `.github/workflows/deploy.yml` 会自动 `npm ci` + 构建 + 发布，约 1 分钟
+4. 访问 `https://<用户名>.github.io`
+
+两个必须注意的点：
+
+- **`public/.nojekyll` 不能删**。GitHub Pages 默认跑 Jekyll，会忽略 `_astro/` 这种下划线开头的目录，结果是样式和图片全 404。
+- **`SITE_URL` 在构建期注入**，workflow 里已经用 `github.repository_owner` 拼好。换成自定义域名时改 workflow 里那一行，并在 `public/` 下放一个内容为域名的 `CNAME` 文件。
+
+仓库名如果不是 `<用户名>.github.io`，站点会落在 `https://<用户名>.github.io/<仓库名>/` 子路径。默认配置没有开启 `base`，需要在 `astro.config.mjs` 里设 `base: '/<仓库名>'`，并把内部链接改成用 `import.meta.env.BASE_URL` 拼接。
+
+免费额度对个人博客足够：仓库 1 GB、每月 100 GB 流量、Actions 构建时长另计。
+
 ### Docker（推荐）
 
 ```bash
