@@ -285,6 +285,8 @@ class Converter:
 
             elif name == "p":
                 text = self.inline_children(child).strip()
+                # 语雀常在段落末尾塞 <br>，转成 markdown 后是多余的空行标记
+                text = re.sub(r"^(?:<br>\s*)+|(?:\s*<br>)+$", "", text).strip()
                 if text:
                     chunks.append(text)
 
@@ -510,6 +512,9 @@ def main() -> int:
                 stats.skipped.append((doc.title, "转换后为空"))
                 print(f"  - 跳过《{doc.title}》：转换后为空")
                 continue
+
+            if len(markdown) > 60_000:
+                print(f"  ! 《{doc.title}》正文 {len(markdown) // 1024} KB，页面会很重，发布前建议拆分")
 
             if args.dry_run:
                 print(f"  - 《{doc.title}》→ {slugify(doc.title)}.md（{len(markdown)} 字符，图片 {store.count} 张）")
