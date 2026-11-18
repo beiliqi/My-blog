@@ -1,0 +1,109 @@
+---
+import '../styles/global.css';
+import { SITE } from '../config';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** 相对站点根的图片路径，用于 og:image */
+  image?: string;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  noindex?: boolean;
+  structuredData?: Record<string, unknown>;
+}
+
+const {
+  title,
+  description = SITE.description,
+  image = '/og.png',
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  noindex = false,
+  structuredData,
+} = Astro.props;
+
+const pageTitle = title ? `${title} — ${SITE.title}` : `${SITE.title} · ${SITE.tagline}`;
+const base = Astro.site ?? Astro.url;
+const canonical = new URL(Astro.url.pathname, base);
+const imageUrl = new URL(image, base);
+const sameAs = [SITE.links.github].filter(Boolean);
+---
+
+<!doctype html>
+<html lang={SITE.lang} data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={SITE.title} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={imageUrl.href} />
+    <meta property="og:locale" content={SITE.lang.replace('-', '_')} />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl.href} />
+
+    <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#fcfcfa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111211" media="(prefers-color-scheme: dark)" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {sameAs.length > 0 && <link rel="me" href={sameAs[0] as string} />}
+
+    {structuredData && (
+      <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    )}
+
+    <script is:inline>
+      (() => {
+        try {
+          // ?theme=dark / ?theme=light 可以用来预览，方便截图与分享
+          const forced = new URLSearchParams(location.search).get('theme');
+          const stored = localStorage.getItem('inkwell-theme');
+          const dark = forced
+            ? forced === 'dark'
+            : stored
+              ? stored === 'dark'
+              : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        } catch {
+          /* localStorage 不可用时保持默认浅色 */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到正文</a>
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+
+    <dialog class="lightbox" data-lightbox aria-label="查看大图">
+      <img alt="" />
+      <button class="lightbox__close" type="button" data-lightbox-close aria-label="关闭">×</button>
+    </dialog>
+
+    <script>
+      import '../scripts/interactions.ts';
+    </script>
+  </body>
+</html>

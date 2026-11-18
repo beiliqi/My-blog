@@ -1,0 +1,144 @@
+---
+import { render } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Toc from '../../components/Toc.astro';
+import { SITE } from '../../config';
+import { getPosts, postPath, neighborsOf } from '../../lib/posts';
+import { formatDate, formatDateLong, readingMinutes } from '../../lib/format';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+
+const posts = await getPosts();
+const { newer, older } = neighborsOf(posts, post.id);
+const minutes = readingMinutes(post.body ?? '');
+const url = new URL(postPath(post), Astro.site ?? Astro.url).href;
+const updated = post.data.updated;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.date.toISOString(),
+  dateModified: (updated ?? post.data.date).toISOString(),
+  inLanguage: SITE.lang,
+  author: { '@type': 'Person', name: SITE.author },
+  publisher: { '@type': 'Person', name: SITE.author },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+  keywords: post.data.tags.join(', '),
+  wordCount: (post.body ?? '').length,
+};
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description || SITE.description}
+  type="article"
+  publishedTime={post.data.date.toISOString()}
+  modifiedTime={(updated ?? post.data.date).toISOString()}
+  structuredData={jsonLd}
+>
+  <article class="post container">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime={post.data.date.toISOString()} title={formatDateLong(post.data.date)}>
+          {formatDate(post.data.date)}
+        </time>
+        <span class="dot" aria-hidden="true"></span>
+        <span>{minutes} 分钟阅读</span>
+        {post.data.category && (
+          <>
+            <span class="dot" aria-hidden="true"></span>
+            <span>{post.data.category}</span>
+          </>
+        )}
+        {post.data.series && (
+          <>
+            <span class="dot" aria-hidden="true"></span>
+            <span>系列：{post.data.series.name} · 第 {post.data.series.order} 篇</span>
+          </>
+        )}
+      </div>
+
+      <h1 class="post__title">{post.data.title}</h1>
+      {post.data.description && <p class="post__lead">{post.data.description}</p>}
+    </header>
+
+    {post.data.cover && (
+      <figure class="post__cover">
+        <Image
+          src={post.data.cover}
+          alt={post.data.coverAlt || post.data.title}
+          widths={[640, 960, 1280]}
+          sizes="(min-width: 720px) 720px, 100vw"
+          loading="eager"
+        />
+      </figure>
+    )}
+
+    {post.data.toc && headings.length > 1 && (
+      <details class="toc-mobile">
+        <summary>本页目录</summary>
+        <Toc headings={headings} />
+      </details>
+    )}
+
+    <div class="post__layout">
+      <div class="post__content">
+        <div class="prose">
+          <Content />
+        </div>
+
+        <footer class="post__footer">
+          {post.data.tags.length > 0 && (
+            <div class="post__tags">
+              {post.data.tags.map((tag) => (
+                <a class="tag" href={`/tags/${encodeURIComponent(tag)}`}>
+                  {tag}
+                </a>
+              ))}
+            </div>
+          )}
+          {updated && <p class="post__updated">最后更新于 {formatDate(updated)}</p>}
+        </footer>
+
+        {(newer || older) && (
+          <nav class="post-nav" aria-label="上一篇 / 下一篇">
+            {older ? (
+              <a href={postPath(older)} rel="prev">
+                <span>← 更早</span>
+                <strong>{older.data.title}</strong>
+              </a>
+            ) : (
+              <span></span>
+            )}
+            {newer ? (
+              <a href={postPath(newer)} rel="next">
+                <span>更新 →</span>
+                <strong>{newer.data.title}</strong>
+              </a>
+            ) : (
+              <span></span>
+            )}
+          </nav>
+        )}
+      </div>
+
+      {post.data.toc && (
+        <aside class="toc-desktop">
+          <Toc headings={headings} />
+        </aside>
+      )}
+    </div>
+  </article>
+</BaseLayout>

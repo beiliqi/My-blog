@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPosts, groupByYear, postPath } from '../lib/posts';
+import { formatDate } from '../lib/format';
+
+const posts = await getPosts();
+const groups = groupByYear(posts);
+---
+
+<BaseLayout title="归档" description="按年份浏览全部文章">
+  <div class="container">
+    <header class="page-head">
+      <h1>归档</h1>
+      <p>{posts.length} 篇文章，跨 {groups.length} 个年份</p>
+    </header>
+
+    {groups.map((group) => (
+      <section>
+        <h2 class="year-heading">
+          {group.year}
+          <span>{group.posts.length} 篇</span>
+        </h2>
+        <ul class="archive">
+          {group.posts.map((post) => (
+            <li>
+              <a class="archive__item" href={postPath(post)}>
+                <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+                <span>{post.data.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</BaseLayout>

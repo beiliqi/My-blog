@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { getPosts, collectTags } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return collectTags(posts).map((tag) => ({
+    params: { tag: tag.name },
+    props: {
+      name: tag.name,
+      posts: posts.filter((post) => post.data.tags.includes(tag.name)),
+    },
+  }));
+}
+
+const { name, posts } = Astro.props;
+---
+
+<BaseLayout title={`标签：${name}`} description={`所有关于 ${name} 的文章`}>
+  <div class="container">
+    <header class="page-head">
+      <h1>标签：{name}</h1>
+      <p>{posts.length} 篇文章 · <a href="/tags">全部标签</a></p>
+    </header>
+    <PostList posts={posts} />
+  </div>
+</BaseLayout>

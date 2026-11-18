@@ -1,0 +1,35 @@
+services:
+  blog:
+    build:
+      context: .
+      args:
+        SITE_URL: ${SITE_URL:-https://blog.example.com}
+        NPM_REGISTRY: ${NPM_REGISTRY:-https://registry.npmmirror.com}
+    image: inkwell-blog:latest
+    container_name: inkwell-blog
+    restart: unless-stopped
+    ports:
+      - "${BLOG_PORT:-8080}:80"
+
+  # 可选：Caddy 自动申请 HTTPS 证书
+  # 启用方式：BLOG_DOMAIN=blog.example.com docker compose --profile tls up -d
+  caddy:
+    image: caddy:2-alpine
+    profiles: ["tls"]
+    container_name: inkwell-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      BLOG_DOMAIN: ${BLOG_DOMAIN:-blog.example.com}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - blog
+
+volumes:
+  caddy_data:
+  caddy_config:

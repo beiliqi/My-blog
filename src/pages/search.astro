@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="搜索" description="搜索全部文章">
+  <div class="container">
+    <header class="page-head">
+      <h1>搜索</h1>
+      <p>匹配标题、标签、目录与正文</p>
+    </header>
+
+    <label class="search-box" for="search-input">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-3.6-3.6" stroke-linecap="round" />
+      </svg>
+      <input
+        id="search-input"
+        type="search"
+        placeholder="搜索文章、标签、函数名…"
+        autocomplete="off"
+        autofocus
+      />
+    </label>
+
+    <p class="search-hint" id="search-hint">正在加载索引…</p>
+    <ol class="search-results" id="search-results"></ol>
+
+    <noscript>
+      <p class="empty-state">搜索需要启用 JavaScript；也可以直接浏览<a href="/archive">归档</a>。</p>
+    </noscript>
+  </div>
+</BaseLayout>
+
+<script>
+  import { setupSearch } from '../scripts/search';
+  setupSearch();
+</script>

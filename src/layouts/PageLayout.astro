@@ -1,0 +1,35 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+  /** Astro 7 的 Markdown 页面会把 frontmatter 整体传进来 */
+  frontmatter?: {
+    title?: string;
+    description?: string;
+    noindex?: boolean;
+  };
+}
+
+const props = Astro.props as Props;
+const frontmatter = props.frontmatter ?? {};
+const title = props.title ?? frontmatter.title;
+const description = props.description ?? frontmatter.description;
+const noindex = props.noindex ?? frontmatter.noindex ?? false;
+---
+
+<BaseLayout title={title} description={description} noindex={noindex}>
+  <article class="post container">
+    <header class="post__header">
+      <h1 class="post__title">{title}</h1>
+      {description && <p class="post__lead">{description}</p>}
+    </header>
+    <div class="post__content">
+      <div class="prose">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>

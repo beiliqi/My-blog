@@ -1,0 +1,28 @@
+---
+import { SITE } from '../config';
+
+const year = new Date().getFullYear();
+const links = [
+  { label: 'RSS', href: '/rss.xml' },
+  { label: '归档', href: '/archive' },
+  { label: '标签', href: '/tags' },
+  ...(SITE.links.github ? [{ label: 'GitHub', href: SITE.links.github }] : []),
+];
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <p>
+      © {year} {SITE.author}
+      <span aria-hidden="true"> · </span>
+      由 <a href="https://astro.build" rel="noopener">Astro</a> 生成
+    </p>
+    <div class="site-footer__links">
+      {links.map((link) => (
+        <a href={link.href} rel={link.href.startsWith('http') ? 'noopener' : undefined}>
+          {link.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</footer>
