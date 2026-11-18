@@ -16,7 +16,9 @@ COPY . .
 RUN SITE_URL="$SITE_URL" npm run build
 
 # --- 运行阶段 ---------------------------------------------------------------
-FROM nginx:1.29-alpine
+# 不锁小版本 tag：某个 1.x 版本可能被下线导致构建失败；
+# 需要可复现时改成 nginx:1.29-alpine 之类。
+FROM nginx:alpine
 
 RUN rm -f /etc/nginx/conf.d/default.conf
 COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
