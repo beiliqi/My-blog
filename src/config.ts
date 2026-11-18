@@ -17,6 +17,13 @@ export const SITE = {
     { label: '标签', href: '/tags' },
     { label: '关于', href: '/about' },
   ],
+  /** 站内编辑器：写文章用的 GitHub 仓库信息 */
+  editor: {
+    owner: 'beiliqi',
+    repo: 'My-blog',
+    branch: 'main',
+    postsPath: 'src/content/posts',
+  },
   /** 留空则不渲染对应图标 */
   links: {
     github: 'https://github.com/beiliqi',

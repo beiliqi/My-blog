@@ -36,7 +36,7 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
-      filter: (page) => !/\/(lab|search|404)\/?$/.test(page),
+      filter: (page) => !/\/(lab|search|edit|404)\/?$/.test(page),
     }),
   ],
   markdown: {

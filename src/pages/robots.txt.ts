@@ -9,6 +9,7 @@ export const GET: APIRoute = ({ site }) => {
     'Allow: /',
     'Disallow: /lab',
     'Disallow: /search',
+    'Disallow: /edit',
     '',
     `Sitemap: ${origin}${withBase('/sitemap-index.xml')}`,
     '',

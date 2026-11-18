@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config';
+
+const EDITOR = SITE.editor;
+---
+
+<BaseLayout title="编辑" description="站内编辑文章" noindex>
+  <div
+    class="container editor"
+    data-editor
+    data-owner={EDITOR.owner}
+    data-repo={EDITOR.repo}
+    data-branch={EDITOR.branch}
+    data-path={EDITOR.postsPath}
+  >
+    <header class="editor__head">
+      <h1>编辑</h1>
+      <p>直接改 Markdown，保存即提交到仓库，约 1 分钟后自动重新部署。</p>
+    </header>
+
+    <section class="editor__gate" data-gate>
+      <h2>连接 GitHub</h2>
+      <ol>
+        <li>
+          GitHub → Settings → Developer settings →
+          <strong>Fine-grained tokens</strong> → Generate new token
+        </li>
+        <li>Repository access 只勾 <code>{EDITOR.repo}</code></li>
+        <li>Permissions → <strong>Contents: Read and write</strong></li>
+        <li>把生成的 <code>github_pat_…</code> 粘到下面，只存在这台浏览器里</li>
+      </ol>
+      <div class="editor__row">
+        <input data-token type="password" placeholder="github_pat_…" autocomplete="off" spellcheck="false" />
+        <button type="button" data-token-save>验证并保存</button>
+      </div>
+      <p class="editor__gate-status" data-gate-status></p>
+    </section>
+
+    <div class="editor__body" data-body hidden>
+      <aside class="editor__list">
+        <div class="editor__list-head">
+          <input data-filter type="search" placeholder="筛选文件名…" />
+          <button type="button" data-new>新建</button>
+          <button type="button" data-token-clear title="清除本机保存的 Token">断开</button>
+        </div>
+        <ul data-files></ul>
+      </aside>
+
+      <section class="editor__pane">
+        <div class="editor__toolbar">
+          <span data-current>未选择文件</span>
+          <span data-status></span>
+          <button type="button" data-save disabled>保存</button>
+        </div>
+        <textarea data-text spellcheck="false" disabled placeholder="选左边的文件，或者点「新建」"></textarea>
+        <p class="editor__meta" data-meta></p>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  import { setupEditor } from '../scripts/editor';
+  setupEditor();
+</script>

@@ -111,6 +111,9 @@ const jsonLd = {
             </div>
           )}
           {updated && <p class="post__updated">最后更新于 {formatDate(updated)}</p>}
+          <p class="post__updated">
+            <a href={`${withBase('/edit/')}?file=${encodeURIComponent(post.id)}`}>编辑此页</a>
+          </p>
         </footer>
 
         {(newer || older) && (

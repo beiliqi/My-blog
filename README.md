@@ -149,6 +149,21 @@ Shiki 内置全部常用语言，写 `python`、`js`、`ts`、`jsx`、`tsx`、`j
 
 ---
 
+## 站内编辑
+
+访问 `/edit/`（线上是 `https://<用户名>.github.io/My-blog/edit/`）可以直接改文章：列出仓库里的 Markdown，点开、改、保存即提交，约 1 分钟后自动重新部署。
+
+第一次用要先给一个 GitHub **fine-grained token**：
+
+1. GitHub → Settings → Developer settings → Fine-grained tokens → Generate new token
+2. Repository access 只勾 `My-blog`
+3. Permissions → **Contents: Read and write**
+4. 把 `github_pat_…` 粘进页面
+
+Token 只存在浏览器的 localStorage（键名 `inkwell:github-token`），不会进仓库、不会随站点发布；点「断开」可以清除。
+
+局限：只能改 Markdown 文本，不能上传图片；每次保存是一次 commit（会触发一次构建）。
+
 ## 图片
 
 把图片放在文章同目录的 `assets/` 下，用相对路径引用：
