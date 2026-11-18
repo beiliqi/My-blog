@@ -79,6 +79,10 @@ export function setupEditor(): void {
   const status = el<HTMLElement>('[data-status]');
   const textarea = el<HTMLTextAreaElement>('[data-text]');
   const meta = el<HTMLElement>('[data-meta]');
+  const pane = el<HTMLElement>('.editor__pane');
+  const previewToggle = el<HTMLButtonElement>('[data-preview-toggle]');
+  const previewBox = el<HTMLElement>('[data-preview]');
+  const previewFrame = el<HTMLIFrameElement>('[data-preview-frame]');
 
   let token = '';
   let files: DirEntry[] = [];
@@ -87,6 +91,9 @@ export function setupEditor(): void {
   let current: DirEntry | null = null;
   let loadedText = '';
   let sha = '';
+  let previewOn = false;
+  let previewTimer = 0;
+  let cachedCss = '';
 
   const setStatus = (value: string, kind: '' | 'ok' | 'warn' | 'error' = '') => {
     status.textContent = value;
@@ -94,6 +101,75 @@ export function setupEditor(): void {
   };
 
   const dirty = () => current !== null && textarea.value !== loadedText;
+
+  /* ---- 预览 ---- */
+
+  function collectCss(): string {
+    if (cachedCss) return cachedCss;
+    let css = '';
+    for (const sheet of Array.from(document.styleSheets)) {
+      try {
+        for (const rule of Array.from(sheet.cssRules)) css += `${rule.cssText}\n`;
+      } catch {
+        /* 跨域样式表读不到，跳过 */
+      }
+    }
+    cachedCss = css;
+    return css;
+  }
+
+  function stripFrontmatter(text: string): string {
+    const match = text.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/);
+    return match ? text.slice(match[0].length) : text;
+  }
+
+  async function renderPreview(): Promise<void> {
+    if (!previewOn || !current) return;
+    const { marked } = await import('marked');
+    const theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+    const html = marked.parse(stripFrontmatter(textarea.value), { async: false, gfm: true }) as string;
+
+    // 文章里的 ./assets/xx.png 在构建时才存在，预览里从仓库原图地址加载
+    const rawBase = `https://raw.githubusercontent.com/${config.owner}/${config.repo}/${config.branch}/${config.path}/assets/`;
+    const withImages = html.replace(/src="\.\/assets\//g, `src="${rawBase}`);
+
+    const doc = [
+      '<!doctype html><html lang="zh-CN" data-theme="' + theme + '"><head><meta charset="utf-8">',
+      '<style>' + collectCss() + '</style>',
+      '<style>html,body{margin:0;padding:0;background:var(--bg);}',
+      'body.preview{padding:1.25rem 1.5rem 3rem;}',
+      '.prose{max-width:none;}',
+      // 真实站点里代码块都由 Shiki 包成 .code-frame，预览里只有裸 pre，补一套样式
+      '.prose pre{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;',
+      'padding:.8rem 1rem;overflow-x:auto;margin-block:1.2em;font-family:var(--font-mono);',
+      'font-size:.84rem;line-height:1.65;tab-size:4;}',
+      '.prose pre code{background:none;border:0;padding:0;font-size:inherit;white-space:pre;}',
+      '.prose img{border:1px solid var(--line);border-radius:10px;}',
+      '</style></head>',
+      '<body class="preview"><div class="prose">' + withImages + '</div></body></html>',
+    ].join('');
+
+    previewFrame.srcdoc = doc;
+  }
+
+  function schedulePreview(): void {
+    if (!previewOn) return;
+    window.clearTimeout(previewTimer);
+    previewTimer = window.setTimeout(() => void renderPreview(), 180);
+  }
+
+  previewToggle.addEventListener('click', () => {
+    previewOn = !previewOn;
+    previewToggle.setAttribute('aria-pressed', String(previewOn));
+    pane.dataset.preview = String(previewOn);
+    previewBox.hidden = !previewOn;
+    if (previewOn) void renderPreview();
+  });
+
+  // 切主题时重建预览，颜色跟着变
+  new MutationObserver(() => {
+    if (previewOn) void renderPreview();
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
   /* ---- API ---- */
 
@@ -189,6 +265,7 @@ export function setupEditor(): void {
       meta.textContent = `${loadedText.length} 字符 · ${(file.size / 1024).toFixed(1)} KB`;
       setStatus('已载入');
       renderFiles();
+      schedulePreview();
     } catch (error) {
       setStatus(`打开失败：${(error as Error).message}`, 'error');
     }
@@ -337,6 +414,7 @@ print("hello")
 
   textarea.addEventListener('input', () => {
     if (dirty()) setStatus('有未保存的修改', 'warn');
+    schedulePreview();
   });
 
   window.addEventListener('beforeunload', (event) => {

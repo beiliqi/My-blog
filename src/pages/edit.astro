@@ -51,9 +51,15 @@ const EDITOR = SITE.editor;
         <div class="editor__toolbar">
           <span data-current>未选择文件</span>
           <span data-status></span>
+          <button type="button" data-preview-toggle aria-pressed="false">预览</button>
           <button type="button" data-save disabled>保存</button>
         </div>
-        <textarea data-text spellcheck="false" disabled placeholder="选左边的文件，或者点「新建」"></textarea>
+        <div class="editor__split" data-split>
+          <textarea data-text spellcheck="false" disabled placeholder="选左边的文件，或者点「新建」"></textarea>
+          <div class="editor__preview" data-preview hidden>
+            <iframe title="预览" data-preview-frame sandbox referrerpolicy="no-referrer"></iframe>
+          </div>
+        </div>
         <p class="editor__meta" data-meta></p>
       </section>
     </div>
