@@ -2,7 +2,8 @@
 title: "frida开发环境配置"
 description: ""
 date: 2024-11-21
-tags: []
+tags: [frida, 环境]
+category: 抓包与逆向
 draft: false
 ---
 mac端配置

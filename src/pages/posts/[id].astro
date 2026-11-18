@@ -60,7 +60,9 @@ const jsonLd = {
         {post.data.category && (
           <>
             <span class="dot" aria-hidden="true"></span>
-            <span>{post.data.category}</span>
+            <a href={withBase(`/categories/${encodeURIComponent(post.data.category)}/`)}>
+              {post.data.category}
+            </a>
           </>
         )}
         {post.data.series && (

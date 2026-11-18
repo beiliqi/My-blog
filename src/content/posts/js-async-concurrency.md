@@ -3,7 +3,7 @@ title: 浏览器里的并发控制：Promise.all 之后还得自己管
 description: Promise.all 只解决"一起发"，不解决"发多少"。这篇记录手写并发池、取消与错误聚合的三个版本。
 date: 2026-11-12
 tags: [javascript, 并发, 浏览器]
-category: 前端
+category: 编程与工程
 ---
 
 `Promise.all(items.map(fetchItem))` 是很多人写并发请求的第一反应。它在小数据量下没问题，但如果 `items` 有 5000 条，浏览器会瞬间打开上千个连接，然后被同域连接数限制卡住，队列越排越长，取消也无从下手。

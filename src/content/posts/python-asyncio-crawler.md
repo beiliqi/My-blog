@@ -4,7 +4,7 @@ description: 把一套回调式的并发爬虫改成 asyncio 结构，顺便把�
 date: 2026-11-16
 updated: 2026-11-18
 tags: [python, asyncio, 爬虫]
-category: 后端
+category: 爬虫工程
 cover: ./assets/cover-asyncio.png
 coverAlt: 深色渐变封面，写着 asyncio
 ---

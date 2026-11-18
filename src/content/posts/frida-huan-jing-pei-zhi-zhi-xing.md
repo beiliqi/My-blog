@@ -3,7 +3,8 @@ title: "frida环境配置-执行"
 description: ""
 date: 2025-06-12
 updated: 2025-07-23
-tags: []
+tags: [frida, hook, android]
+category: 抓包与逆向
 draft: false
 ---
 ## 需要安装 frida 环境后执行

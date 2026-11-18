@@ -361,6 +361,21 @@ rsync -az --delete dist/ user@server:/srv/blog/
 
 ---
 
+## 分类与标签
+
+每篇文章的 frontmatter 有两个组织维度：
+
+```yaml
+tags: [python, asyncio, 爬虫]   # 多对多，点进去是标签页
+category: 爬虫工程               # 单值，点进去是分类页
+```
+
+- `/categories/`：按分类浏览（抓包与逆向、爬虫工程、编程与工程、服务器与部署、环境与工具、数据与调研、杂项）
+- `/tags/`：按标签浏览
+- `/archive/`：按年份浏览，顶部有分类入口
+
+分类名直接写在 `category` 里，新增分类不需要改代码——页面会自动出现。
+
 ## 维护
 
 | 需求 | 做法 |

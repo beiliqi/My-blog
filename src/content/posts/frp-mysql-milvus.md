@@ -3,7 +3,8 @@ title: "frp-mysql-milvus"
 description: ""
 date: 2025-03-21
 updated: 2025-03-22
-tags: []
+tags: [frp, mysql, milvus, 内网穿透]
+category: 服务器与部署
 draft: false
 ---
 公网机器 203.0.113.10

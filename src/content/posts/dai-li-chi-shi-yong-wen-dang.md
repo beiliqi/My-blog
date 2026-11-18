@@ -3,7 +3,8 @@ title: "代理池使用文档"
 description: ""
 date: 2025-05-22
 updated: 2025-06-23
-tags: []
+tags: [代理池, redis, python]
+category: 爬虫工程
 draft: false
 ---
 ## 1、从Redis代理池随机获取一个代理IP

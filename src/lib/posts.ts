@@ -36,6 +36,18 @@ export function collectTags(posts: Post[]): TagCount[] {
     .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-CN'));
 }
 
+export function collectCategories(posts: Post[]): TagCount[] {
+  const counter = new Map<string, number>();
+  for (const post of posts) {
+    const category = post.data.category;
+    if (!category) continue;
+    counter.set(category, (counter.get(category) ?? 0) + 1);
+  }
+  return [...counter.entries()]
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-CN'));
+}
+
 export function groupByYear(posts: Post[]): Array<{ year: string; posts: Post[] }> {
   const groups: Array<{ year: string; posts: Post[] }> = [];
   for (const post of posts) {

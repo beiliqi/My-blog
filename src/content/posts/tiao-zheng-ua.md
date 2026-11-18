@@ -3,7 +3,8 @@ title: "调整ua"
 description: ""
 date: 2025-09-02
 updated: 2026-03-02
-tags: []
+tags: [反爬, ua]
+category: 抓包与逆向
 draft: false
 ---
 调整背景：优化 43003 问题

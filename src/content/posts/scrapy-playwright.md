@@ -2,7 +2,8 @@
 title: "scrapy-playwright"
 description: ""
 date: 2025-01-24
-tags: []
+tags: [scrapy, playwright]
+category: 爬虫工程
 draft: false
 ---
 [https://github.com/scrapy-plugins/scrapy-playwright](https://github.com/scrapy-plugins/scrapy-playwright)

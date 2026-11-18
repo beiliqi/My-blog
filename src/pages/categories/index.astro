@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE } from '../../config';
+import { getPosts, collectCategories } from '../../lib/posts';
+import { withBase } from '../../lib/url';
+
+const posts = await getPosts();
+const categories = collectCategories(posts);
+---
+
+<BaseLayout title="分类" description={`${SITE.title}的全部文章分类`}>
+  <div class="container">
+    <header class="page-head">
+      <h1>分类</h1>
+      <p>{categories.length} 个分类 · {posts.length} 篇文章</p>
+    </header>
+
+    <ul class="tag-cloud">
+      {categories.map((category) => (
+        <li>
+          <a href={withBase(`/categories/${encodeURIComponent(category.name)}/`)}>
+            {category.name}
+            <b>{category.count}</b>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</BaseLayout>

@@ -3,7 +3,8 @@ title: "Hadoop、HDFS 和 Hive 之间的关系"
 description: ""
 date: 2024-11-13
 updated: 2024-12-19
-tags: []
+tags: [hadoop, hdfs, hive, 大数据]
+category: 数据与调研
 draft: false
 ---
 Hadoop、HDFS 和 Hive 之间的关系

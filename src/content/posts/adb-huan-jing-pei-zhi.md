@@ -3,7 +3,8 @@ title: "adb环境配置"
 description: ""
 date: 2025-06-19
 updated: 2025-12-23
-tags: []
+tags: [adb, android, 环境]
+category: 环境与工具
 draft: false
 ---
 ## 安装教程

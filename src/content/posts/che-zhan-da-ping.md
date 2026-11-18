@@ -3,7 +3,8 @@ title: "车站大屏"
 description: ""
 date: 2025-07-23
 updated: 2026-03-04
-tags: []
+tags: ['12306', 接口, 抓包]
+category: 数据与调研
 draft: false
 ---
 车站大屏：出发

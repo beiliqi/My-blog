@@ -3,7 +3,8 @@ title: "服务器部署文档"
 description: ""
 date: 2025-07-08
 updated: 2025-09-14
-tags: []
+tags: [java, 部署, nginx]
+category: 服务器与部署
 draft: false
 ---
 # 一、Java 工程前置

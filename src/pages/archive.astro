@@ -1,10 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getPosts, groupByYear, postPath } from '../lib/posts';
+import { getPosts, groupByYear, collectCategories, postPath } from '../lib/posts';
+import { withBase } from '../lib/url';
 import { formatDate } from '../lib/format';
 
 const posts = await getPosts();
 const groups = groupByYear(posts);
+const categories = collectCategories(posts);
 ---
 
 <BaseLayout title="归档" description="按年份浏览全部文章">
@@ -13,6 +15,22 @@ const groups = groupByYear(posts);
       <h1>归档</h1>
       <p>{posts.length} 篇文章，跨 {groups.length} 个年份</p>
     </header>
+
+    {categories.length > 0 && (
+      <section>
+        <h2 class="year-heading">按分类 <span>{categories.length} 类</span></h2>
+        <ul class="tag-cloud archive__cats">
+          {categories.map((category) => (
+            <li>
+              <a href={withBase(`/categories/${encodeURIComponent(category.name)}/`)}>
+                {category.name}
+                <b>{category.count}</b>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
 
     {groups.map((group) => (
       <section>

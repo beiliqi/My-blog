@@ -3,7 +3,8 @@ title: "frida基础"
 description: ""
 date: 2024-11-21
 updated: 2025-06-26
-tags: []
+tags: [frida, hook, 逆向]
+category: 抓包与逆向
 draft: false
 ---
 模式：cli模式，RPC模式

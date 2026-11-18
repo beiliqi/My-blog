@@ -3,7 +3,8 @@ title: "在线换座调研文档"
 description: ""
 date: 2025-09-30
 updated: 2026-11-18
-tags: []
+tags: ['12306', 调研]
+category: 数据与调研
 draft: false
 ---
 结论：携程的换座主要还是使用改签功能做的，这个在技术上是可以实现的

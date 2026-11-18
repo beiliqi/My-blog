@@ -2,7 +2,8 @@
 title: "mac 安装node、npm、jsdom"
 description: ""
 date: 2025-06-19
-tags: []
+tags: [node, mac, jsdom]
+category: 环境与工具
 draft: false
 ---
 **直接从官网上下载安装**

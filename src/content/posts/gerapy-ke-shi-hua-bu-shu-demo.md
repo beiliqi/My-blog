@@ -3,7 +3,8 @@ title: "gerapy可视化部署-demo"
 description: ""
 date: 2024-12-03
 updated: 2026-04-28
-tags: []
+tags: [gerapy, scrapyd, 部署]
+category: 爬虫工程
 draft: false
 ---
 **Gerapy** 是一个基于 Scrapy 的分布式爬虫框架，旨在为大规模爬虫任务提供更高效的管理和调度功能。它支持分布式任务调度、集中式配置管理、爬虫任务监控和日志管理等功能，非常适合用于多节点分布式环境下的大规模数据抓取。

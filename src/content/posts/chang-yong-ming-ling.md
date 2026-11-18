@@ -3,7 +3,8 @@ title: "常用命令"
 description: ""
 date: 2024-11-15
 updated: 2025-07-08
-tags: []
+tags: [命令, 速查, linux]
+category: 环境与工具
 draft: false
 ---
 # 目录

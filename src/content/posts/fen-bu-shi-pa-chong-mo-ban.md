@@ -3,7 +3,8 @@ title: "分布式爬虫模版"
 description: ""
 date: 2024-11-13
 updated: 2024-11-15
-tags: []
+tags: [scrapy, redis, kafka, 分布式]
+category: 爬虫工程
 draft: false
 ---
 ## 项目背景

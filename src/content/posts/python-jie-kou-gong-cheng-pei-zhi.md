@@ -3,7 +3,8 @@ title: "python接口工程配置"
 description: ""
 date: 2025-06-29
 updated: 2026-02-11
-tags: []
+tags: [python, 接口, mysql]
+category: 编程与工程
 draft: false
 ---
 ## 1、表结构

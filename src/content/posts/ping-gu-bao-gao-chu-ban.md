@@ -2,7 +2,8 @@
 title: "评估报告-初版"
 description: ""
 date: 2025-11-21
-tags: []
+tags: [方案, 架构]
+category: 数据与调研
 draft: false
 ---
 ### 一、项目基本定位与能力领域 涉及行业与核心能力领域：

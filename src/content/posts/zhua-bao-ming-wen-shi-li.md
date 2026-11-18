@@ -3,7 +3,8 @@ title: "抓包明文示例"
 description: ""
 date: 2025-06-19
 updated: 2025-06-30
-tags: []
+tags: [抓包, '12306', 接口]
+category: 抓包与逆向
 draft: false
 ---
 ## 1、登录接口

@@ -2,7 +2,8 @@
 title: "🧭 CentOS7 安装新版 Chrome + DrissionPage 方案（GLIBC 安全升级版）"
 description: ""
 date: 2025-11-03
-tags: []
+tags: [centos, chrome, glibc, drissionpage]
+category: 服务器与部署
 draft: false
 ---
 ---

@@ -3,7 +3,8 @@ title: "java-加解密工程处理流程"
 description: ""
 date: 2025-06-23
 updated: 2025-07-15
-tags: []
+tags: [java, 加解密, maven]
+category: 编程与工程
 draft: false
 ---
 ## 1、配置 maven 版本和 settings 文件
