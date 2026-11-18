@@ -6,3 +6,6 @@ dist/
 .env
 .env.*
 !.env.example
+
+# 语雀导出文件，体积大，不入库
+import/

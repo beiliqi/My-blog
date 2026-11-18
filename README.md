@@ -59,6 +59,28 @@ lang: zh                     # 可选，默认 zh
 
 字段类型由 `src/content.config.ts` 里的 zod schema 校验，写错会在构建时直接报错。
 
+### 从语雀导入
+
+语雀整库导出只有 PDF 和 `.lakebook`。`.lakebook` 实际是 tar 包，里面每篇文档一个 JSON（HTML 正文 + 元数据），用 `tools/yuque-import.py` 转成 Markdown：
+
+```bash
+# 一次性依赖
+python3 -m pip install --user beautifulsoup4 pypinyin
+
+# 转成草稿（默认），图片下载到 posts/assets/<slug>/
+python3 tools/yuque-import.py import/联东.lakebook
+
+# 直接发布
+python3 tools/yuque-import.py import/*.lakebook --draft false
+
+# 只看会生成什么，不写文件
+python3 tools/yuque-import.py import/联东.lakebook --dry-run
+```
+
+转换规则：标题/段落/列表/引用/链接/图片 → 标准 Markdown；表格 → GFM 表格（首行当表头）；图片下载到 `src/content/posts/assets/<slug>/` 并改成本地路径；slug 用标题拼音；`description` 留空（语雀自动截取的那段往往是拼接噪声，导入后自己写）。
+
+加密文档、正文为空的文档、下载失败的图片都会被跳过并打印出来。
+
 ### 文件类型
 
 | 位置 | 用途 | 路由 |

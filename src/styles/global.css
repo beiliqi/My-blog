@@ -666,7 +666,11 @@ a.tag:hover {
 }
 
 .prose table {
+  /* 宽表（比如从表格软件/语雀导出的数据表）横向滚动，不撑破正文列 */
+  display: block;
   width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
   border-collapse: collapse;
   font-size: 0.9rem;
   line-height: 1.6;
@@ -678,6 +682,9 @@ a.tag:hover {
   border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: top;
+  /* 长 URL 允许在任意位置断行；min-width 兜住，避免窄列被压成一字一行 */
+  overflow-wrap: anywhere;
+  min-width: 5em;
 }
 
 .prose th {
