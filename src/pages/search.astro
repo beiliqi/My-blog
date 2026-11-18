@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/url';
 ---
 
 <BaseLayout title="搜索" description="搜索全部文章">
@@ -27,7 +28,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <ol class="search-results" id="search-results"></ol>
 
     <noscript>
-      <p class="empty-state">搜索需要启用 JavaScript；也可以直接浏览<a href="/archive">归档</a>。</p>
+      <p class="empty-state">搜索需要启用 JavaScript；也可以直接浏览<a href={withBase('/archive')}>归档</a>。</p>
     </noscript>
   </div>
 </BaseLayout>

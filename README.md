@@ -194,7 +194,7 @@ export const SITE = {
 };
 ```
 
-### 域名
+### 域名与子路径
 
 canonical、OG、RSS、sitemap 里的绝对地址都来自**构建期**的 `SITE_URL`：
 
@@ -202,7 +202,13 @@ canonical、OG、RSS、sitemap 里的绝对地址都来自**构建期**的 `SITE
 SITE_URL=https://blog.your-domain.com npm run build
 ```
 
-换域名必须重新构建，改 nginx 配置没有用。
+部署在子路径（GitHub Pages 项目站）时再叠加 `BASE_PATH`：
+
+```bash
+SITE_URL=https://user.github.io BASE_PATH=/blog npm run build
+```
+
+两者都是 shell 环境变量（CI 里写在 workflow 中），不是 `.env` 文件。换域名或改子路径必须重新构建。
 
 ### 配色与排版
 
@@ -234,21 +240,29 @@ shikiConfig: {
 
 ### GitHub Pages
 
-静态站可以直接托管在 GitHub Pages。仓库名用 `<用户名>.github.io` 时站点在根路径，开箱即用：
+仓库名随意（例如 `blog`），站点会部署在 `https://<用户名>.github.io/<仓库名>/` 子路径。
 
-1. 新建仓库 `<用户名>.github.io`，把本目录 push 到 `main`
+1. 新建仓库（例如 `blog`），把本目录 push 到 `main`
 2. 仓库 **Settings → Pages → Build and deployment → Source** 选 **GitHub Actions**
-3. `.github/workflows/deploy.yml` 会自动 `npm ci` + 构建 + 发布，约 1 分钟
-4. 访问 `https://<用户名>.github.io`
+3. `.github/workflows/deploy.yml` 会自动算好 `BASE_PATH`（`/<仓库名>`）并构建发布，约 1 分钟
+4. 访问 `https://<用户名>.github.io/<仓库名>/`
 
-两个必须注意的点：
+三个要点：
 
-- **`public/.nojekyll` 不能删**。GitHub Pages 默认跑 Jekyll，会忽略 `_astro/` 这种下划线开头的目录，结果是样式和图片全 404。
-- **`SITE_URL` 在构建期注入**，workflow 里已经用 `github.repository_owner` 拼好。换成自定义域名时改 workflow 里那一行，并在 `public/` 下放一个内容为域名的 `CNAME` 文件。
+- **子路径靠 `BASE_PATH` 注入**。所有站内链接都必须走 `src/lib/url.ts` 的 `withBase()`，不要再直接写 `/posts/...`，否则子路径部署会 404。
+- **`public/.nojekyll` 不能删**。GitHub Pages 默认跑 Jekyll，会忽略 `_astro/` 这种下划线开头的目录，结果是样式和图片全丢。
+- 仓库名如果正好是 `<用户名>.github.io`，workflow 会自动把前缀改成根路径 `/`。
 
-仓库名如果不是 `<用户名>.github.io`，站点会落在 `https://<用户名>.github.io/<仓库名>/` 子路径。默认配置没有开启 `base`，需要在 `astro.config.mjs` 里设 `base: '/<仓库名>'`，并把内部链接改成用 `import.meta.env.BASE_URL` 拼接。
+本地预览子路径效果：
 
-免费额度对个人博客足够：仓库 1 GB、每月 100 GB 流量、Actions 构建时长另计。
+```bash
+SITE_URL=https://user.github.io BASE_PATH=/blog npm run dev
+# → http://localhost:4321/blog/
+```
+
+换自定义域名：改 workflow 里的 `SITE_URL`，并在 `public/` 下放一个内容为域名的 `CNAME` 文件。
+
+免费额度对个人博客足够：仓库 1 GB、每月 100 GB 流量。
 
 ### Docker（推荐）
 

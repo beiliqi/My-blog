@@ -16,8 +16,13 @@ import { codeFrame } from './src/lib/code/frame.ts';
 //   SITE_URL=https://blog.your-domain.com npm run build
 const site = process.env.SITE_URL ?? 'https://blog.example.com';
 
+// 部署在子路径时用 BASE_PATH，例如 GitHub Pages 项目站：
+//   SITE_URL=https://user.github.io BASE_PATH=/blog npm run build
+const base = process.env.BASE_PATH ?? '/';
+
 export default defineConfig({
   site,
+  base,
   trailingSlash: 'ignore',
   prefetch: {
     prefetchAll: false,

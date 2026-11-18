@@ -1,26 +1,39 @@
 ---
 import { SITE } from '../config';
+import { basePath, withBase } from '../lib/url';
 
-const path = Astro.url.pathname;
-const isActive = (href: string) =>
-  href === '/' ? path === '/' || path.startsWith('/posts') : path === href || path.startsWith(`${href}/`);
+const pathname = Astro.url.pathname;
+// 去掉部署前缀，得到站内路径，用来判断当前页
+const current = pathname.startsWith(basePath)
+  ? `/${pathname.slice(basePath.length)}`
+  : pathname;
+
+const isActive = (href: string) => {
+  if (href === '/') return current === '/' || current.startsWith('/posts');
+  return current === href || current.startsWith(`${href}/`);
+};
+
+// path 是站内路径（用于高亮），href 是带部署前缀的真实地址
+const navItems = [
+  ...SITE.nav.map((item) => ({ label: item.label, path: item.href, href: withBase(item.href) })),
+  { label: '搜索', path: '/search', href: withBase('/search') },
+];
 ---
 
 <header class="site-header">
   <div class="container site-header__inner">
-    <a class="brand" href="/" aria-label={`${SITE.title} 首页`}>
+    <a class="brand" href={withBase('/')} aria-label={`${SITE.title} 首页`}>
       <span class="brand__mark" aria-hidden="true"></span>
       <span>{SITE.title}</span>
       <span class="brand__tagline">{SITE.tagline}</span>
     </a>
 
     <nav class="site-nav" aria-label="主导航">
-      {SITE.nav.map((item) => (
-        <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+      {navItems.map((item) => (
+        <a href={item.href} aria-current={isActive(item.path) ? 'page' : undefined}>
           {item.label}
         </a>
       ))}
-      <a href="/search" aria-current={path === '/search' ? 'page' : undefined}>搜索</a>
     </nav>
 
     <button

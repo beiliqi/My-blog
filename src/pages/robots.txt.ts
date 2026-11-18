@@ -1,7 +1,8 @@
 import type { APIRoute } from 'astro';
+import { withBase } from '../lib/url';
 
 export const GET: APIRoute = ({ site }) => {
-  const base = (site ?? new URL('https://blog.example.com')).href.replace(/\/$/, '');
+  const origin = (site ?? new URL('https://blog.example.com')).href.replace(/\/$/, '');
 
   const body = [
     'User-agent: *',
@@ -9,7 +10,7 @@ export const GET: APIRoute = ({ site }) => {
     'Disallow: /lab',
     'Disallow: /search',
     '',
-    `Sitemap: ${base}/sitemap-index.xml`,
+    `Sitemap: ${origin}${withBase('/sitemap-index.xml')}`,
     '',
   ].join('\n');
 

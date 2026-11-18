@@ -6,6 +6,7 @@ import Toc from '../../components/Toc.astro';
 import { SITE } from '../../config';
 import { getPosts, postPath, neighborsOf } from '../../lib/posts';
 import { formatDate, formatDateLong, readingMinutes } from '../../lib/format';
+import { withBase } from '../../lib/url';
 
 export async function getStaticPaths() {
   const posts = await getPosts();
@@ -103,7 +104,7 @@ const jsonLd = {
           {post.data.tags.length > 0 && (
             <div class="post__tags">
               {post.data.tags.map((tag) => (
-                <a class="tag" href={`/tags/${encodeURIComponent(tag)}`}>
+                <a class="tag" href={withBase(`/tags/${encodeURIComponent(tag)}`)}>
                   {tag}
                 </a>
               ))}

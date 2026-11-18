@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { withBase } from './url';
 
 export type Post = CollectionEntry<'posts'>;
 
@@ -15,7 +16,7 @@ export async function getPosts(): Promise<Post[]> {
 
 /** 文章 URL：文件名即 slug */
 export function postPath(post: Post): string {
-  return `/posts/${post.id}/`;
+  return withBase(`/posts/${post.id}/`);
 }
 
 export interface TagCount {

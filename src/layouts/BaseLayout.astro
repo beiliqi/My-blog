@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { SITE } from '../config';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import { withBase } from '../lib/url';
 
 interface Props {
   title?: string;
@@ -30,7 +31,7 @@ const {
 const pageTitle = title ? `${title} — ${SITE.title}` : `${SITE.title} · ${SITE.tagline}`;
 const base = Astro.site ?? Astro.url;
 const canonical = new URL(Astro.url.pathname, base);
-const imageUrl = new URL(image, base);
+const imageUrl = new URL(withBase(image), base);
 const sameAs = [SITE.links.github].filter(Boolean);
 ---
 
@@ -59,9 +60,9 @@ const sameAs = [SITE.links.github].filter(Boolean);
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl.href} />
 
-    <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="alternate" type="application/rss+xml" title={SITE.title} href={withBase('/rss.xml')} />
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
     <meta name="theme-color" content="#fcfcfa" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#111211" media="(prefers-color-scheme: dark)" />
     {noindex && <meta name="robots" content="noindex, nofollow" />}

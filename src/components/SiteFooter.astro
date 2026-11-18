@@ -1,11 +1,12 @@
 ---
 import { SITE } from '../config';
+import { withBase } from '../lib/url';
 
 const year = new Date().getFullYear();
 const links = [
-  { label: 'RSS', href: '/rss.xml' },
-  { label: '归档', href: '/archive' },
-  { label: '标签', href: '/tags' },
+  { label: 'RSS', href: withBase('/rss.xml') },
+  { label: '归档', href: withBase('/archive') },
+  { label: '标签', href: withBase('/tags') },
   ...(SITE.links.github ? [{ label: 'GitHub', href: SITE.links.github }] : []),
 ];
 ---
