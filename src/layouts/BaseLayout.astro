@@ -36,7 +36,7 @@ const sameAs = [SITE.links.github].filter(Boolean);
 ---
 
 <!doctype html>
-<html lang={SITE.lang} data-theme="light">
+<html lang={SITE.lang} data-theme="light" data-skin="editorial">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -93,7 +93,7 @@ const sameAs = [SITE.links.github].filter(Boolean);
             ? skinParam
             : skins.includes(storedSkin)
               ? storedSkin
-              : 'paper';
+              : 'editorial';
           document.documentElement.dataset.skin = skin;
         } catch {
           /* localStorage 不可用时保持默认浅色 */

@@ -16,12 +16,12 @@ ROOT = Path(__file__).resolve().parent.parent
 POST_ASSETS = ROOT / "src" / "content" / "posts" / "assets"
 PUBLIC = ROOT / "public"
 
-BG = (252, 252, 250)
+BG = (251, 248, 241)
 INK = (27, 27, 25)
 MUTED = (128, 128, 118)
 LINE = (226, 224, 214)
-ACCENT = (14, 111, 91)
-ACCENT_SOFT = (233, 243, 239)
+ACCENT = (156, 59, 46)
+ACCENT_SOFT = (245, 232, 227)
 
 ARIAL = "/System/Library/Fonts/Supplemental/Arial.ttf"
 ARIAL_UNICODE = "/System/Library/Fonts/Supplemental/Arial Unicode.ttf"
@@ -206,11 +206,11 @@ def make_og() -> Path:
 
 def make_touch_icon() -> Path:
     size = 180
-    image = Image.new("RGB", (size, size), (14, 111, 91))
+    image = Image.new("RGB", (size, size), (156, 59, 46))
     draw = ImageDraw.Draw(image)
-    draw.rounded_rectangle((44, 58, 136, 122), radius=26, fill=(252, 252, 250))
-    draw.rounded_rectangle((62, 72, 118, 82), radius=5, fill=(14, 111, 91))
-    draw.rounded_rectangle((62, 94, 100, 104), radius=5, fill=(14, 111, 91))
+    draw.rounded_rectangle((44, 58, 136, 122), radius=26, fill=(251, 248, 241))
+    draw.rounded_rectangle((62, 72, 118, 82), radius=5, fill=(156, 59, 46))
+    draw.rounded_rectangle((62, 94, 100, 104), radius=5, fill=(156, 59, 46))
     target = PUBLIC / "apple-touch-icon.png"
     image.save(target, optimize=True)
     return target

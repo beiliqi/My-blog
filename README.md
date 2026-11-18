@@ -239,11 +239,11 @@ export const SITE = {
 
 | 皮肤 | 特征 |
 |---|---|
-| `paper`（默认） | 暖白纸感、无衬线标题、松绿强调，最清淡 |
-| `editorial` | 象牙纸色、宋体标题、砖红强调，偏杂志阅读 |
+| `paper` | 暖白纸感、无衬线标题、松绿强调，最清淡 |
+| `editorial`（默认） | 象牙纸色、宋体标题、砖红强调，偏杂志阅读 |
 | `terminal` | 近黑底 + 荧光绿、等宽标题、直角边框，偏代码 |
 
-变量集中在 `src/styles/global.css` 的「12. 皮肤」一节。想换默认皮肤，改 `src/layouts/BaseLayout.astro` 里 boot 脚本的最后那个 fallback（`'paper'`）。
+变量集中在 `src/styles/global.css` 的「12. 皮肤」一节。想换默认皮肤，改 `src/layouts/BaseLayout.astro`：`<html data-skin="...">` 和 boot 脚本里的 fallback（现在是 `'editorial'`）两处。
 
 临时预览：`?skin=editorial`、`?skin=terminal`，可以和 `?theme=dark` 组合。
 
