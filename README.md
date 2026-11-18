@@ -1,5 +1,7 @@
 # Inkwell
 
+![首页](docs/home.png)
+
 一个极简的个人技术博客：Markdown 写作、构建期渲染、纯静态部署。
 
 - **代码是主角**：Shiki（VS Code 同款 TextMate 语法）+ 行号、标题栏、diff、行高亮、聚焦、错误提示、折叠、复制、自动换行
@@ -68,6 +70,12 @@ lang: zh                     # 可选，默认 zh
 ---
 
 ## 代码块
+
+![代码块](docs/article-code.png)
+
+暗色主题下（`?theme=dark` 可预览）：
+
+![暗色模式](docs/dark.png)
 
 围栏后面可以跟一组 meta，控制渲染效果：
 

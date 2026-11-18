@@ -866,6 +866,21 @@ a.tag:hover {
   font-variant-ligatures: none;
   /* 行是块级元素，pre 里 shiki 输出的换行文本节点不能参与排版 */
   white-space: normal;
+  /* 横向溢出时给出可见的滚动条提示，否则长行会被静默截断 */
+  scrollbar-width: thin;
+}
+
+.code-frame pre::-webkit-scrollbar {
+  height: 8px;
+}
+
+.code-frame pre::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: var(--line-strong);
+}
+
+.code-frame pre::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .code-frame pre code {
