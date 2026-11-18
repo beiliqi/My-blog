@@ -84,6 +84,17 @@ const sameAs = [SITE.links.github].filter(Boolean);
               ? stored === 'dark'
               : window.matchMedia('(prefers-color-scheme: dark)').matches;
           document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+
+          // 皮肤：?skin= 优先，其次 localStorage，默认 paper
+          const skins = ['paper', 'editorial', 'terminal'];
+          const skinParam = new URLSearchParams(location.search).get('skin');
+          const storedSkin = localStorage.getItem('inkwell-skin');
+          const skin = skins.includes(skinParam)
+            ? skinParam
+            : skins.includes(storedSkin)
+              ? storedSkin
+              : 'paper';
+          document.documentElement.dataset.skin = skin;
         } catch {
           /* localStorage 不可用时保持默认浅色 */
         }

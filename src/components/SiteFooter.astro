@@ -18,6 +18,13 @@ const links = [
       <span aria-hidden="true"> · </span>
       由 <a href="https://astro.build" rel="noopener">Astro</a> 生成
     </p>
+    <div class="skin-switch" data-skin-switch>
+      <span>皮肤</span>
+      <button type="button" data-skin-option="paper">纸感</button>
+      <button type="button" data-skin-option="editorial">杂志</button>
+      <button type="button" data-skin-option="terminal">终端</button>
+    </div>
+
     <div class="site-footer__links">
       {links.map((link) => (
         <a href={link.href} rel={link.href.startsWith('http') ? 'noopener' : undefined}>

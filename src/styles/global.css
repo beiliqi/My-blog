@@ -20,6 +20,7 @@
     "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   --font-mono: ui-monospace, "SF Mono", SFMono-Regular, "JetBrains Mono", Menlo,
     Consolas, "PingFang SC", "Microsoft YaHei", monospace;
+  --font-heading: var(--font-sans);
 
   --bg: #fcfcfa;
   --bg-soft: #f6f5f0;
@@ -142,6 +143,15 @@ ol,
 figure,
 blockquote {
   margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
 }
 
 code,
@@ -1772,4 +1782,214 @@ html[data-theme="dark"] .code-frame .astro-code span {
     border-left: 0;
     border-top: 1px solid var(--line);
   }
+}
+
+/* 12. 皮肤 ---------------------------------------------------------------- */
+/*
+ * 默认皮肤（paper）就是上面 :root / [data-theme=dark] 那套，不额外定义。
+ * 其它皮肤用 html[data-skin=...] 覆盖变量，并补一点结构上的差异。
+ */
+
+/* --- 杂志风：暖纸 + 宋体标题 + 砖红 --- */
+html[data-skin="editorial"] {
+  --font-heading: "Songti SC", "Noto Serif SC", "Source Han Serif SC", "Times New Roman", Georgia, serif;
+
+  --bg: #fbf8f1;
+  --bg-soft: #f4eee2;
+  --surface: #fffdf8;
+  --text: #1e1b16;
+  --text-2: #574d40;
+  --text-3: #8a7d6b;
+  --line: #e6ddcb;
+  --line-strong: #d3c6ad;
+  --accent: #9c3b2e;
+  --accent-ink: #7c2c22;
+  --accent-soft: #f5e8e3;
+
+  --code-bg: #f7f2e7;
+  --code-head: #efe7d6;
+  --code-line: #e5dbc7;
+  --hl: #f0e6d2;
+  --diff-add: #e9f0e2;
+  --diff-remove: #f8e6e2;
+  --warn: #8a5a12;
+  --error: #a3271f;
+  --radius: 4px;
+}
+
+html[data-skin="editorial"][data-theme="dark"] {
+  --bg: #171310;
+  --bg-soft: #1f1a15;
+  --surface: #221c16;
+  --text: #ece4d6;
+  --text-2: #bdb1a0;
+  --text-3: #948877;
+  --line: #2e261d;
+  --line-strong: #40352a;
+  --accent: #e0896d;
+  --accent-ink: #f0a98f;
+  --accent-soft: #33211b;
+
+  --code-bg: #1b1611;
+  --code-head: #241d16;
+  --code-line: #2f271e;
+  --hl: #332a1a;
+  --diff-add: #1b2a1c;
+  --diff-remove: #2f1a18;
+  --warn: #e0a44a;
+  --error: #f08a80;
+}
+
+html[data-skin="editorial"] body {
+  font-size: 18px;
+}
+
+html[data-skin="editorial"] .post__title,
+html[data-skin="editorial"] .hero h1,
+html[data-skin="editorial"] .page-head h1 {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+html[data-skin="editorial"] .prose h2 {
+  padding-top: 0.55em;
+  border-top: 1px solid var(--line);
+  font-weight: 500;
+}
+
+html[data-skin="editorial"] .prose blockquote,
+html[data-skin="editorial"] .post__lead {
+  font-family: var(--font-heading);
+}
+
+html[data-skin="editorial"] .prose blockquote {
+  border-left-width: 3px;
+  background: transparent;
+  padding-left: 1.3em;
+}
+
+html[data-skin="editorial"] .brand {
+  font-weight: 500;
+}
+
+/* --- 终端风：近黑 + 荧光绿 + 等宽标题 --- */
+html[data-skin="terminal"] {
+  --font-heading: ui-monospace, "SF Mono", Menlo, Consolas, "PingFang SC", monospace;
+
+  --bg: #f4f6f3;
+  --bg-soft: #e9efe8;
+  --surface: #ffffff;
+  --text: #10201a;
+  --text-2: #3c5148;
+  --text-3: #6b7f76;
+  --line: #d5e0da;
+  --line-strong: #b9cbc2;
+  --accent: #0b6b3a;
+  --accent-ink: #074d29;
+  --accent-soft: #e2f2e8;
+
+  --code-bg: #eef4f0;
+  --code-head: #e3ece7;
+  --code-line: #d3e0d9;
+  --hl: #dff0e4;
+  --diff-add: #e2f2e4;
+  --diff-remove: #f7e3e2;
+  --warn: #7a5200;
+  --error: #a3211b;
+  --radius: 2px;
+}
+
+html[data-skin="terminal"][data-theme="dark"] {
+  --bg: #0a0d0b;
+  --bg-soft: #101612;
+  --surface: #0d120f;
+  --text: #cfe8d8;
+  --text-2: #94b3a3;
+  --text-3: #6b8a7b;
+  --line: #1c2a23;
+  --line-strong: #2c4136;
+  --accent: #4ade80;
+  --accent-ink: #86efac;
+  --accent-soft: #10241a;
+
+  --code-bg: #0c110e;
+  --code-head: #111a14;
+  --code-line: #1e2c24;
+  --hl: #12251a;
+  --diff-add: #0f2317;
+  --diff-remove: #2a1514;
+  --warn: #f0b429;
+  --error: #f87171;
+}
+
+html[data-skin="terminal"] body {
+  letter-spacing: 0;
+}
+
+html[data-skin="terminal"] .site-header {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: var(--bg);
+}
+
+html[data-skin="terminal"] .site-nav a {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  border-radius: 2px;
+}
+
+html[data-skin="terminal"] .brand {
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+html[data-skin="terminal"] .hero__eyebrow::before {
+  content: "$ ";
+  color: var(--accent);
+}
+
+html[data-skin="terminal"] .hero h1,
+html[data-skin="terminal"] .post__title {
+  letter-spacing: -0.015em;
+  font-weight: 600;
+}
+
+html[data-skin="terminal"] .tag,
+html[data-skin="terminal"] .code-frame,
+html[data-skin="terminal"] .callout,
+html[data-skin="terminal"] .post-nav a {
+  border-radius: 2px;
+}
+
+/* --- 页脚皮肤切换 --- */
+.skin-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.skin-switch > span {
+  color: var(--text-3);
+  margin-right: 0.15rem;
+}
+
+.skin-switch button {
+  padding: 0.1rem 0.45rem;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text-3);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.skin-switch button:hover {
+  color: var(--text);
+  background: var(--bg-soft);
+}
+
+.skin-switch button[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
 }

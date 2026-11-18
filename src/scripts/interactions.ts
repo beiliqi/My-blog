@@ -37,6 +37,36 @@ function setupThemeToggle(): void {
   }
 }
 
+/* ---------- 皮肤 ---------- */
+
+function setupSkinSwitch(): void {
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-skin-option]'));
+  if (buttons.length === 0) return;
+
+  const sync = () => {
+    const current = document.documentElement.dataset.skin ?? 'paper';
+    for (const button of buttons) {
+      button.setAttribute('aria-pressed', String(button.dataset.skinOption === current));
+    }
+  };
+
+  sync();
+
+  for (const button of buttons) {
+    button.addEventListener('click', () => {
+      const skin = button.dataset.skinOption;
+      if (!skin) return;
+      document.documentElement.dataset.skin = skin;
+      try {
+        localStorage.setItem('inkwell-skin', skin);
+      } catch {
+        /* 忽略写入失败 */
+      }
+      sync();
+    });
+  }
+}
+
 /* ---------- 代码块 ---------- */
 
 async function copyText(text: string): Promise<boolean> {
@@ -202,6 +232,7 @@ function setupTocHighlight(): void {
 
 function boot(): void {
   setupThemeToggle();
+  setupSkinSwitch();
   setupCodeActions();
   setupLightbox();
   setupTocHighlight();
