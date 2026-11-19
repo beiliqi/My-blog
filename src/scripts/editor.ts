@@ -74,6 +74,8 @@ export function setupEditor(): void {
   const fileList = el<HTMLUListElement>('[data-files]');
   const filter = el<HTMLInputElement>('[data-filter]');
   const newButton = el<HTMLButtonElement>('[data-new]');
+  const importButton = el<HTMLButtonElement>('[data-import]');
+  const importInput = el<HTMLInputElement>('[data-import-file]');
   const saveButton = el<HTMLButtonElement>('[data-save]');
   const currentLabel = el<HTMLElement>('[data-current]');
   const status = el<HTMLElement>('[data-status]');
@@ -352,6 +354,117 @@ print("hello")
       setStatus(`创建失败：${(error as Error).message}`, 'error');
     }
   }
+
+  /* ---- 导入文件 ---- */
+
+  const today = () => new Date().toISOString().slice(0, 10);
+
+  const yamlString = (value: string) => `"${value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
+
+  function titleFrom(text: string, fallback: string): string {
+    const heading = text.match(/^#\s+(.+)$/m);
+    return (heading?.[1] ?? fallback).trim();
+  }
+
+  async function importFiles(list: File[]): Promise<void> {
+    const accepted = list.filter((file) => /\.(md|mdx|markdown|txt)$/i.test(file.name));
+    if (accepted.length === 0) {
+      setStatus('只支持 .md / .mdx / .txt', 'error');
+      return;
+    }
+
+    const imported: DirEntry[] = [];
+
+    for (const file of accepted) {
+      let text = (await file.text()).replace(/^\uFEFF/, '');
+
+      const base = file.name.replace(/\.(md|mdx|markdown|txt)$/i, '');
+      let slug = base
+        .toLowerCase()
+        .replace(/[^a-z0-9-]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+
+      if (!slug) {
+        const answer = window.prompt(
+          `「${file.name}」需要英文文件名，给个 slug（小写、连字符）：`,
+          `import-${today()}`,
+        );
+        if (answer === null) continue;
+        slug = answer.trim().toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '');
+      }
+      if (!slug) {
+        setStatus(`跳过 ${file.name}：文件名不合法`, 'error');
+        continue;
+      }
+
+      if (file.name.toLowerCase().endsWith('.txt')) {
+        text = `# ${base}\n\n${text}`;
+      }
+
+      if (!/^---\r?\n/.test(text)) {
+        text =
+          [
+            '---',
+            `title: ${yamlString(titleFrom(text, base))}`,
+            'description: ""',
+            `date: ${today()}`,
+            'tags: []',
+            'draft: true',
+            '---',
+            '',
+            '',
+          ].join('\n') + text;
+      }
+
+      setStatus(`导入 ${file.name}…`);
+      try {
+        await api(contents(`${config.path}/${slug}.md`), {
+          method: 'PUT',
+          body: JSON.stringify({
+            message: `post: 导入 ${slug}`,
+            content: encodeBase64(text),
+            branch: config.branch,
+          }),
+        });
+        imported.push({ name: `${slug}.md`, path: `${config.path}/${slug}.md`, sha: '', size: text.length, type: 'file' });
+      } catch (error) {
+        setStatus(`导入 ${file.name} 失败：${(error as Error).message}`, 'error');
+        return;
+      }
+    }
+
+    if (imported.length === 0) return;
+
+    await loadFiles();
+    const first = files.find((file) => file.path === imported[0]!.path);
+    if (first) await openFile(first);
+    setStatus(`已导入 ${imported.length} 篇（草稿状态）`, 'ok');
+  }
+
+  importButton.addEventListener('click', () => importInput.click());
+  importInput.addEventListener('change', async () => {
+    if (importInput.files?.length) await importFiles([...importInput.files]);
+    importInput.value = '';
+  });
+
+  // 拖拽导入
+  const paneElement = el<HTMLElement>('.editor__pane');
+  for (const eventName of ['dragenter', 'dragover']) {
+    paneElement.addEventListener(eventName, (event) => {
+      event.preventDefault();
+      paneElement.classList.add('is-dragover');
+    });
+  }
+  for (const eventName of ['dragleave', 'drop']) {
+    paneElement.addEventListener(eventName, (event) => {
+      event.preventDefault();
+      paneElement.classList.remove('is-dragover');
+    });
+  }
+  paneElement.addEventListener('drop', (event) => {
+    const dropped = (event as DragEvent).dataTransfer?.files;
+    if (dropped?.length) void importFiles([...dropped]);
+  });
 
   /* ---- Token ---- */
 

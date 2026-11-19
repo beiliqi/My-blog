@@ -162,7 +162,9 @@ Shiki 内置全部常用语言，写 `python`、`js`、`ts`、`jsx`、`tsx`、`j
 
 Token 只存在浏览器的 localStorage（键名 `inkwell:github-token`），不会进仓库、不会随站点发布；点「断开」可以清除。
 
-点「预览」右侧会出现实时渲染（复用站点的样式，跟随明暗主题，图片从仓库原图地址加载）。预览跑在 sandbox iframe 里，Markdown 里的脚本碰不到页面和 Token。
+- **新建**：按模板生成一篇 `draft: true` 的草稿
+- **导入**：上传本地 `.md` / `.mdx` / `.txt`（也可以直接把文件拖到右侧编辑区），自动补 frontmatter、生成 slug，中文文件名会让你填一个英文 slug
+- **预览**：右侧实时渲染（复用站点的样式，跟随明暗主题，图片从仓库原图地址加载）。预览跑在 sandbox iframe 里，Markdown 里的脚本碰不到页面和 Token
 
 局限：只能改 Markdown 文本，不能上传图片；预览里的代码块没有语法着色（真实页面用 Shiki 构建期着色）；每次保存是一次 commit（会触发一次构建）。
 

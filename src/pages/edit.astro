@@ -42,6 +42,8 @@ const EDITOR = SITE.editor;
         <div class="editor__list-head">
           <input data-filter type="search" placeholder="筛选文件名…" />
           <button type="button" data-new>新建</button>
+          <button type="button" data-import>导入</button>
+          <input data-import-file type="file" accept=".md,.mdx,.markdown,.txt" multiple hidden />
           <button type="button" data-token-clear title="清除本机保存的 Token">断开</button>
         </div>
         <ul data-files></ul>

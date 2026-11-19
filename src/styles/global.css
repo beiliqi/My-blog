@@ -1605,7 +1605,11 @@ html[data-theme="dark"] .code-frame .astro-code span {
 }
 
 .editor__list-head input {
-  flex: 1 1 6rem;
+  flex: 1 1 100%;
+}
+
+.editor__list-head button {
+  flex: 1 1 auto;
 }
 
 .editor__list ul {
@@ -2002,4 +2006,9 @@ html[data-skin="terminal"] .post-nav a {
 .skin-switch button[aria-pressed="true"] {
   color: var(--accent);
   border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
+}
+
+.editor__pane.is-dragover {
+  outline: 2px dashed var(--accent);
+  outline-offset: -6px;
 }
