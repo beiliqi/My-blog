@@ -3,9 +3,9 @@
  * 部署域名不在这里配 —— 它是构建期环境变量 SITE_URL（见 README）。
  */
 export const SITE = {
-  title: 'Inkwell',
+  title: 'beiliqi',
   /** 显示在页脚与文章署名 */
-  author: 'Inkwell',
+  author: 'beiliqi',
   tagline: '代码、系统与写作的笔记本',
   description: '一个记录编程、系统设计与阅读的技术博客。',
   lang: 'zh-CN',

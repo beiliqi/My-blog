@@ -1,4 +1,4 @@
-# Inkwell
+# beiliqi
 
 ![首页](docs/home.png)
 
@@ -224,8 +224,8 @@ blog/
 
 ```ts
 export const SITE = {
-  title: 'Inkwell',
-  author: 'Inkwell',
+  title: 'beiliqi',
+  author: 'beiliqi',
   tagline: '代码、系统与写作的笔记本',
   description: '一个记录编程、系统设计与阅读的技术博客。',
   nav: [...],

@@ -23,7 +23,11 @@ const navItems = [
 <header class="site-header">
   <div class="container site-header__inner">
     <a class="brand" href={withBase('/')} aria-label={`${SITE.title} 首页`}>
-      <span class="brand__mark" aria-hidden="true"></span>
+      <svg class="brand__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M12 7 5 16l7 9" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M20 7l7 9-7 9" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+        <circle cx="16" cy="16" r="2.6" fill="currentColor" />
+      </svg>
       <span>{SITE.title}</span>
       <span class="brand__tagline">{SITE.tagline}</span>
     </a>

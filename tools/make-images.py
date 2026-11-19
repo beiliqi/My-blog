@@ -26,6 +26,7 @@ ACCENT_SOFT = (245, 232, 227)
 ARIAL = "/System/Library/Fonts/Supplemental/Arial.ttf"
 ARIAL_UNICODE = "/System/Library/Fonts/Supplemental/Arial Unicode.ttf"
 MONO = "/System/Library/Fonts/Menlo.ttc"
+GEORGIA = "/System/Library/Fonts/Supplemental/Georgia.ttf"
 
 
 def font(path: str, size: int) -> ImageFont.FreeTypeFont:
@@ -48,6 +49,21 @@ def arrow(draw: ImageDraw.ImageDraw, start, end, color, width=4, head=16):
         end[1] - head * math.sin(angle + math.pi / 7),
     )
     draw.polygon([end, left, right], fill=color)
+
+
+def draw_mark(draw: ImageDraw.ImageDraw, x: float, y: float, size: float, color, width: int | None = None) -> None:
+    """把 <•> 标按 32×32 坐标系缩放画出来"""
+    scale = size / 32.0
+
+    def point(px: float, py: float) -> tuple[float, float]:
+        return (x + px * scale, y + py * scale)
+
+    stroke = width or max(2, int(round(2.8 * scale)))
+    draw.line([point(12, 7), point(5, 16), point(12, 25)], fill=color, width=stroke, joint="curve")
+    draw.line([point(20, 7), point(27, 16), point(20, 25)], fill=color, width=stroke, joint="curve")
+    radius = 2.6 * scale
+    cx, cy = point(16, 16)
+    draw.ellipse([cx - radius, cy - radius, cx + radius, cy + radius], fill=color)
 
 
 def make_build_flow() -> Path:
@@ -176,27 +192,18 @@ def make_og() -> Path:
     draw = ImageDraw.Draw(image)
 
     draw.rectangle((0, 0, 12, height), fill=ACCENT)
-    draw.text((90, 190), "Inkwell", font=font(ARIAL, 104), fill=INK)
-    draw.text(
-        (94, 330),
-        "代码、系统与写作的笔记本",
-        font=font(ARIAL_UNICODE, 42),
-        fill=(79, 79, 73),
-    )
-    draw.line([(94, 430), (520, 430)], fill=LINE, width=3)
-    draw.text(
-        (94, 470),
-        "Python · JavaScript · 后端 · 前端",
-        font=font(ARIAL_UNICODE, 26),
-        fill=MUTED,
-    )
-    draw.text(
-        (94, 520),
-        "blog.example.com",
-        font=font(MONO, 22),
-        fill=MUTED,
-    )
-    draw.text((880, 470), "A", font=font(ARIAL, 160), fill=ACCENT_SOFT)
+
+    # 标 + 字标
+    draw_mark(draw, 92, 146, 84, ACCENT)
+    draw.text((200, 132), "beiliqi", font=font(GEORGIA, 104), fill=INK)
+
+    draw.text((94, 300), "代码、系统与写作的笔记本", font=font(ARIAL_UNICODE, 40), fill=(79, 79, 73))
+    draw.line([(94, 400), (560, 400)], fill=LINE, width=3)
+    draw.text((94, 440), "Python · 逆向 · 爬虫 · 系统", font=font(ARIAL_UNICODE, 26), fill=MUTED)
+    draw.text((94, 496), "beiliqi.github.io", font=font(MONO, 22), fill=MUTED)
+
+    # 右下角放一个淡的标
+    draw_mark(draw, 930, 380, 210, ACCENT_SOFT)
 
     target = PUBLIC / "og.png"
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -206,11 +213,9 @@ def make_og() -> Path:
 
 def make_touch_icon() -> Path:
     size = 180
-    image = Image.new("RGB", (size, size), (156, 59, 46))
+    image = Image.new("RGB", (size, size), ACCENT)
     draw = ImageDraw.Draw(image)
-    draw.rounded_rectangle((44, 58, 136, 122), radius=26, fill=(251, 248, 241))
-    draw.rounded_rectangle((62, 72, 118, 82), radius=5, fill=(156, 59, 46))
-    draw.rounded_rectangle((62, 94, 100, 104), radius=5, fill=(156, 59, 46))
+    draw_mark(draw, 36, 36, 108, BG)
     target = PUBLIC / "apple-touch-icon.png"
     image.save(target, optimize=True)
     return target
